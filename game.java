@@ -1,26 +1,24 @@
+import java.util.Date;
+
 public class game {
 
-    boolean won;
-    int difficulty;
+    game(int num) {
+        Date date1 = new Date();
+        long time1 = date1.getTime();
 
-    game(int user_input) {
-        this.won = false;
-        this.difficulty = user_input;
+        for (int i = 0; i < num; i++) {
+  
+            int N = 9;
+            Sudoku sudoku = new Sudoku(N);
+            
+            sudoku.fill_val();
+    
+        }
+
+        Date date2 = new Date();
+        long time2 = date2.getTime();
+        System.out.println((time2 - time1) + "ms to solve "+ num +" sudoku");
+
     }
 
-    public static void main(String[] args){
-		int N = 9, K = 20;
-		Sudoku sudoku = new Sudoku(N, K);
-		
-        sudoku.fill_val();
-		sudoku.printSudoku();
-        //sudoku.print_table();
-        //System.out.println(sudoku.flagged());
-
-        int size = sudoku.get_table().size();
-        System.out.println(size);
-
-        
-
-	}
 }

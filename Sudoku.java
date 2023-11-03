@@ -1,20 +1,12 @@
-/* Java program for Sudoku generator */
-import java.lang.*;
-import java.util.Hashtable;
-import java.util.Enumeration;
-
 public class Sudoku{
 	int[][] board;
 	int N; // number of columns/rows.
 	int SRN; // square root of N
-	int K; // No. Of missing digits
-    Hashtable<Integer, Integer> cell_table = new Hashtable<>(); 
-    int checker = 0;
+	
 
 	// Constructor
-	Sudoku(int N, int K){
+	Sudoku(int N){
 		this.N = N;
-		this.K = K;
 
 		// Compute square root of N
 		this.SRN = (int) Math.sqrt(N);
@@ -28,9 +20,6 @@ public class Sudoku{
 
 		// Fill remaining blocks
 		fill_remain(0, SRN);
-
-		// Remove Randomly K digits to make game
-		remove_digits();
 	}
 
 	// Fill the diagonal SRN number of SRN x SRN matrices
@@ -77,8 +66,7 @@ public class Sudoku{
 	}
 
 	// check in the row for existence
-	boolean unused_row(int i,int num)
-	{
+	boolean unused_row(int i,int num){
 		for (int j = 0; j < N; j++)
 		if (board[i][j] == num)
 				return false;
@@ -86,8 +74,7 @@ public class Sudoku{
 	}
 
 	// check in the row for existence
-	boolean unused_col(int j,int num)
-	{
+	boolean unused_col(int j,int num){
 		for (int i = 0; i < N; i++)
 			if (board[i][j] == num)
 				return false;
@@ -97,8 +84,7 @@ public class Sudoku{
 
 	// A recursive function to fill remaining 
 	// matrix
-	boolean fill_remain(int i, int j)
-	{
+	boolean fill_remain(int i, int j){
 		// System.out.println(i+" "+j);
 		if (j >= N && i < N-1){
 			i += 1;
@@ -136,39 +122,7 @@ public class Sudoku{
 		return false;
 	}
 
-	// Remove the K no. of digits to
-	// complete game
-	public void remove_digits(){
-
-        try {
-            int count = K;
-		
-            while (count != 0){
-                int cell_id = (int) Math.floor((Math.random()* N * N + 1));;
-
-                // System.out.println(cellId);
-                // extract coordinates i and j
-                int i = (cell_id / N);
-                int j = cell_id % 9;
-
-                if (j != 0)
-                    j -= 1;
-
-                if (board[i][j] != 0){
-                    cell_table.put(cell_id, board[i][j]);
-
-                    count--;
-                    board[i][j] = 0;
-                }
-            }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Index Out of Bound");
-            checker = 1;
-        }
-
-		
-	}
-
+	
 	// Print sudoku
 	public void printSudoku(){
 		for (int i = 0; i < N; i++){
@@ -188,24 +142,5 @@ public class Sudoku{
         
 	}
 
-    public boolean flagged() {
-        return checker == 1;
-    }
-
-    public Hashtable<Integer, Integer> get_table() {
-        return this.cell_table;
-    }
-
-    public void print_table() {
-        // Get an enumeration of the keys
-        Enumeration<Integer> keys = cell_table.keys();
-
-        // Iterate over the keys and print key-value pairs
-        while (keys.hasMoreElements()) {
-            Integer key = keys.nextElement();
-            Integer value = cell_table.get(key);
-            System.out.println(key + ": " + value);
-        }
-    }
 
 }
